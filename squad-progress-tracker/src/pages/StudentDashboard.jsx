@@ -1,5 +1,6 @@
 
 
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +16,7 @@ const StudentDashboard = () => {
         // Fetching the progress data from the backend API
         const response = await axios.get("http://localhost:8080/api/progress/all");
 
-        // Check the structure of the response
+        // Debugging: Log response to check if belt is present
         console.log("Fetched Progress Data:", response.data);
 
         // Ensure the response has data and it's in the expected format
@@ -32,6 +33,11 @@ const StudentDashboard = () => {
 
     fetchProgress();
   }, []);
+
+  useEffect(() => {
+    // Debugging: Log progress data after it updates
+    console.log("Updated Progress Data:", progressData);
+  }, [progressData]);
 
   if (loading) {
     return <h2 className="text-center text-blue-500 mt-10">Loading...</h2>;
@@ -81,14 +87,14 @@ const StudentDashboard = () => {
               </motion.div>
 
               {/* Submission Date */}
-              <p className="text-gray-600 mt-2">{student.date}</p>
+              <p className="text-gray-600 mt-2">{student.date || "Date Not Available"}</p>
 
               {/* Display Student Name below the Date */}
-              <h3 className="text-lg font-semibold text-blue-700 mt-2">{student.name}</h3>
+              <h3 className="text-lg font-semibold text-blue-700 mt-2">{student.name || "Unknown"}</h3>
 
               {/* Display the Current Belt Level */}
               <div className="mt-2 text-sm text-gray-500">
-                <strong>Belt Level:</strong> {student.belt}
+                <strong>Belt Level:</strong> {student.belt ? student.belt : "Not Assigned"}
               </div>
             </motion.div>
           );
