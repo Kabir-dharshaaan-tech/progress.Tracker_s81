@@ -1,63 +1,46 @@
-
-
-// const express = require("express");
-// const dotenv = require("dotenv");
-// const cors = require("cors");
-// const connectDB = require("./config/db");
-
-// dotenv.config();
-// connectDB();
-
-// const app = express();
-
-// // ✅ Enable CORS to allow frontend communication
-// app.use(cors());
-
-// // ✅ Middleware to parse JSON requests
-// app.use(express.json());
-
-// // ✅ Load API Routes
-// app.use("/api/auth", require("./routes/authRoutes"));
-// app.use("/api/progress", require("./routes/progressRoutes"));
-
-// // ✅ Catch-all for undefined routes
-// app.use((req, res) => {
-//   res.status(404).json({ message: "❌ API route not found" });
-// });
-
-// // ✅ Start Server on Correct Port
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log("\x1b[32m%s\x1b[0m", `✅ Server running at: http://localhost:${PORT}`);
-// });
 const express = require("express");
-const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 const cors = require("cors");
-const connectDB = require("./config/db");
-const authMiddleware = require("./middleware/authMiddleware"); // Import auth middleware if required
+const dotenv = require("dotenv");
+const progressRoutes = require("./routes/progressRoutes");
+const authRoutes = require("./routes/authRoutes"); // ✅ Import authentication routes
 
-dotenv.config();
-connectDB();
+dotenv.config(); // Load environment variables
 
 const app = express();
 
-// ✅ Enable CORS to allow frontend communication
-app.use(cors());
+// Middleware
+app.use(cors()); // Enable CORS for frontend requests
+app.use(express.json()); // Parse incoming JSON requests
 
-// ✅ Middleware to parse JSON requests
-app.use(express.json());
+// ✅ Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
-// ✅ Load API Routes
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/progress", require("./routes/progressRoutes"));
+// ✅ Test route
+app.get("/", (req, res) => {
+  res.send("🚀 API is running...");
+});
+
+// ✅ Routes
+app.use("/api/auth", authRoutes); // ✅ Add Authentication Routes
+app.use("/api/progress", progressRoutes); // Progress Routes
 
 // ✅ Catch-all for undefined routes
 app.use((req, res) => {
   res.status(404).json({ message: "❌ API route not found" });
 });
 
-// ✅ Start Server on Correct Port
-const PORT = process.env.PORT || 5000;
+// ✅ Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("❌ Server Error:", err);
+  res.status(500).json({ message: "Internal Server Error" });
+});
+
+// ✅ Start server
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log("\x1b[32m%s\x1b[0m", `✅ Server running at: http://localhost:${PORT}`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
