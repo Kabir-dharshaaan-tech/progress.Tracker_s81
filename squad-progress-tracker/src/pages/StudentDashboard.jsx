@@ -8,20 +8,20 @@ import { motion } from "framer-motion";
 
 const StudentDashboard = () => {
   const [progressData, setProgressData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBelt, setSelectedBelt] = useState("All"); // Default filter is "All"
 
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        // Fetching the progress data from the backend API
         const response = await axios.get("http://localhost:8080/api/progress/all");
 
-        // Debugging: Log response to check if belt is present
         console.log("Fetched Progress Data:", response.data);
 
-        // Ensure the response has data and it's in the expected format
         if (response.data && Array.isArray(response.data)) {
           setProgressData(response.data);
+          setFilteredData(response.data); // Initially set filtered data same as progress data
         } else {
           console.error("Invalid data format:", response.data);
         }
@@ -35,9 +35,21 @@ const StudentDashboard = () => {
   }, []);
 
   useEffect(() => {
-    // Debugging: Log progress data after it updates
     console.log("Updated Progress Data:", progressData);
   }, [progressData]);
+
+  // 🔥 Function to filter students by belt level
+  const handleFilterChange = (event) => {
+    const belt = event.target.value;
+    setSelectedBelt(belt);
+
+    if (belt === "All") {
+      setFilteredData(progressData);
+    } else {
+      const filtered = progressData.filter((student) => student.belt === belt);
+      setFilteredData(filtered);
+    }
+  };
 
   if (loading) {
     return <h2 className="text-center text-blue-500 mt-10">Loading...</h2>;
@@ -58,14 +70,26 @@ const StudentDashboard = () => {
     <div className="min-h-screen p-6 bg-gray-100">
       <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Student Progress Dashboard</h2>
 
+      {/* 🔥 Belt Level Filter Dropdown */}
+      <div className="mb-6 flex justify-center">
+        <select
+          className="px-4 py-2 border rounded-md focus:border-blue-500"
+          value={selectedBelt}
+          onChange={handleFilterChange}
+        >
+          <option value="All">All Belts</option>
+          <option value="Green">Green</option>
+          <option value="Purple">Purple</option>
+          <option value="Blue">Blue</option>
+          <option value="Brown">Brown</option>
+        </select>
+      </div>
+
       {/* Display User Progress in Animated Circles */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-center">
-        {progressData.map((student, index) => {
-          // Ensure that solved and total are valid numbers
+        {filteredData.map((student, index) => {
           const solved = student.solved ? Number(student.solved) : 0;
           const total = student.total ? Number(student.total) : 5; // Default to 5 if no total is provided
-
-          // Calculate the progress out of 5 instead of 100
           const progressOutOf5 = total > 0 ? (solved / total) * 5 : 0;
 
           return (
