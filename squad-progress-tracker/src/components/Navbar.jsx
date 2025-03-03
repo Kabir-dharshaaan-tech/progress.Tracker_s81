@@ -5,7 +5,6 @@
 
 
 
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -36,6 +35,9 @@ const Navbar = () => {
 
         {/* Show "Mentor Update" only if logged in */}
         {token && <li><Link className="hover:text-yellow-400 transition" to="/mentor-update">Mentor Update</Link></li>}
+
+        {/* Show "Student Today's Work" for everyone */}
+        <li><Link className="hover:text-purple-400 transition" to="/student-todays-work">Student Today's Work</Link></li>
 
         {/* Show Logout if logged in, else show Login */}
         {token ? (

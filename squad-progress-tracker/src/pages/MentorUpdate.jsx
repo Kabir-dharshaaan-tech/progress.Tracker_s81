@@ -4,6 +4,8 @@
 
 
 
+
+
 import { useState, useEffect } from "react";
 
 const MentorUpdate = () => {
@@ -13,7 +15,6 @@ const MentorUpdate = () => {
     brown: ["", "", "", "", ""],
   });
 
-  // ✅ Fetch Latest Questions on Load
   useEffect(() => {
     const fetchLatestQuestions = async () => {
       try {
@@ -36,7 +37,6 @@ const MentorUpdate = () => {
     }));
   };
 
-  // ✅ Send Data to Backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -71,15 +71,26 @@ const MentorUpdate = () => {
                 {belt.charAt(0).toUpperCase() + belt.slice(1)} Belt
               </h3>
               {formData[belt].map((link, index) => (
-                <input
-                  key={`${belt}-${index}`}
-                  type="url"
-                  placeholder={`LeetCode Question ${index + 1}`}
-                  value={link}
-                  onChange={(e) => handleChange(belt, index, e.target.value)}
-                  className="w-full p-2 mt-2 border rounded-lg focus:ring-2 outline-none"
-                  required
-                />
+                <div key={`${belt}-${index}`} className="flex gap-2 items-center mt-2">
+                  <input
+                    type="url"
+                    placeholder={`LeetCode Question ${index + 1}`}
+                    value={link}
+                    onChange={(e) => handleChange(belt, index, e.target.value)}
+                    className="w-full p-2 border rounded-lg focus:ring-2 outline-none"
+                    required
+                  />
+                  {link && (
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      🔗 Open
+                    </a>
+                  )}
+                </div>
               ))}
             </div>
           ))}
@@ -92,4 +103,4 @@ const MentorUpdate = () => {
   );
 };
 
-export default MentorUpdate; // ✅ Fix: Ensure the component is exported as default
+export default MentorUpdate;
