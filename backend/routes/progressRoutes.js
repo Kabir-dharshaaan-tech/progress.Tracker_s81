@@ -1,23 +1,9 @@
 
 
 
-// const express = require("express");
-// const { updateProgress, getAllProgress, getMyProgress } = require("../controllers/progressController");
-// const authMiddleware = require("../middleware/authMiddleware");
-
-// const router = express.Router();
-
-// router.post("/update", authMiddleware, updateProgress); // Protected: Only logged-in users can update progress
-// router.get("/all", getAllProgress); // Public: Get all students' progress (for dashboard)
-// router.get("/myprogress", authMiddleware, getMyProgress); // Protected: Get logged-in user's progress
-
-// module.exports = router;
-
-
-
 
 const express = require("express");
-const { updateProgress, getAllProgress, getMyProgress } = require("../controllers/progressController");
+const { updateProgress, getAllProgress, getMyProgress } = require("../controllers/progressController"); // ✅ Ensure correct import
 const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
@@ -29,7 +15,7 @@ router.post("/update", authMiddleware, async (req, res, next) => {
     await updateProgress(req, res);
   } catch (error) {
     console.error("❌ Error in Progress Update Route:", error);
-    next(error); // Pass error to Express error handler
+    next(error);
   }
 });
 
