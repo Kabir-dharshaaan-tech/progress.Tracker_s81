@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import myImages from "../../images/a.jpg"
 
 const More = () => {
   return (
@@ -24,7 +25,7 @@ const More = () => {
         </p>
         
         <motion.img 
-          src="./images/1000001284.jpg" 
+          src={myImages}
           alt="Your Name" 
           className="w-40 h-40 rounded-full shadow-lg border-4 border-blue-500 mx-auto mb-4"
           initial={{ scale: 0 }}
