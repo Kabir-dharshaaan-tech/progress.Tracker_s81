@@ -4,7 +4,7 @@
 
 
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -47,18 +47,23 @@ const App = () => {
         
         {/* More & Statistics Buttons Positioned in the Middle of Right Side */}
         <div className="absolute top-1/2 right-6 transform -translate-y-1/2 flex flex-col gap-4">
-          <button 
-            onClick={() => window.location.href='/more'}
+        <Link to='/more'>
+        <button 
+            
             className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all"
           >
             More
           </button>
+        </Link>
+         
+          <Link to="/statitics">
           <button 
-            onClick={() => window.location.href='/statistics'}
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all"
           >
             Statistics
           </button>
+          </Link>
+          
         </div>
       </div>
     </Router>
