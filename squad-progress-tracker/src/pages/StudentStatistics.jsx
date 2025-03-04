@@ -1,6 +1,8 @@
 
 
 
+
+
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
@@ -39,27 +41,26 @@ const StudentStatistics = () => {
 
   const student = students[currentIndex];
 
-  // ✅ Ensure there is progress data
-  const progressData = [{ day: parseInt(student.date.split("/")[0], 10), questionsSolved: student.solved }];
-
-  // ✅ Fill missing days with default 0 values for 30 days
+ 
+  const studentProgress = students.filter(s => s.name === student.name);
+  
+ 
   const progressMap = {};
-  progressData.forEach(({ day, questionsSolved }) => {
-    progressMap[day] = questionsSolved;
+  studentProgress.forEach(({ date, solved }) => {
+    const day = parseInt(date.split("/")[0], 10);
+    progressMap[day] = (progressMap[day] || 0) + solved; 
   });
+
 
   let filledProgressData = Array.from({ length: 30 }, (_, i) => ({
     day: i + 1,
-    questionsSolved: progressMap[i + 1] || 0, // Default to 0 if no data
+    questionsSolved: progressMap[i + 1] || 0,
   }));
 
-  // ✅ Calculate total solved questions
   let totalSolved = filledProgressData.reduce((sum, entry) => sum + entry.questionsSolved, 0);
 
-  // ✅ Get last recorded day
-  const lastRecordedDay = Math.max(...filledProgressData.map((entry) => entry.day), 1);
 
-  // ✅ Reset progress when total reaches 50 or when the last recorded day exceeds 30
+  const lastRecordedDay = Math.max(...filledProgressData.map((entry) => entry.day), 1);
   if (lastRecordedDay > 30 || totalSolved >= 50) {
     totalSolved = 0;
     filledProgressData = Array.from({ length: 30 }, (_, i) => ({
@@ -89,10 +90,10 @@ const StudentStatistics = () => {
       x: { title: { display: true, text: "Days" } },
       y: {
         beginAtZero: true,
-        max: 5, // ✅ Updated max value to 5 since each day has 5 questions
+        max: 5,
         title: { display: true, text: "Questions Solved" },
         ticks: {
-          stepSize: 1, // ✅ Ensures Y-axis shows whole numbers up to 5
+          stepSize: 1,
         },
       },
     },

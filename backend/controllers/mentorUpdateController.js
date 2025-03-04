@@ -1,6 +1,6 @@
 const MentorUpdate = require("../models/MentorUpdate");
 
-// ✅ Helper Function to Format Date as "DD/MM/YYYY"
+
 const formatDate = (date) => {
   const d = new Date(date);
   const year = d.getFullYear();
@@ -9,7 +9,7 @@ const formatDate = (date) => {
   return `${day}/${month}/${year}`;
 };
 
-// ✅ Update Mentor's LeetCode Links
+
 exports.updateMentorQuestions = async (req, res) => {
   try {
     const { purple, blue, brown } = req.body;
@@ -20,7 +20,7 @@ exports.updateMentorQuestions = async (req, res) => {
     let mentorUpdate = await MentorUpdate.findOne({ date: todayDate });
 
     if (mentorUpdate) {
-      // ✅ Replace old questions with new ones
+   
       mentorUpdate.purple = purple;
       mentorUpdate.blue = blue;
       mentorUpdate.brown = brown;
@@ -28,7 +28,7 @@ exports.updateMentorQuestions = async (req, res) => {
       console.log("✅ Mentor Questions Updated:", mentorUpdate);
       return res.status(200).json({ message: "✅ Updated successfully!", mentorUpdate });
     } else {
-      // ✅ Create a new entry for today
+
       mentorUpdate = new MentorUpdate({ date: todayDate, purple, blue, brown });
       await mentorUpdate.save();
       console.log("✅ New Mentor Questions Created:", mentorUpdate);
@@ -40,7 +40,7 @@ exports.updateMentorQuestions = async (req, res) => {
   }
 };
 
-// ✅ Get Latest Mentor Questions (Accessible by all students)
+
 exports.getLatestMentorQuestions = async (req, res) => {
   try {
     console.log("📥 Fetching Latest Mentor Questions...");

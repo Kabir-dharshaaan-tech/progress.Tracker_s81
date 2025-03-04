@@ -4,7 +4,7 @@
 const Progress = require("../models/Progress");
 const User = require("../models/User");
 
-// ✅ Function to Format Date as "DD/MM/YYYY"
+
 const formatDate = (date) => {
   const d = new Date(date);
   const year = d.getFullYear();
@@ -13,7 +13,6 @@ const formatDate = (date) => {
   return `${day}/${month}/${year}`;
 };
 
-// ✅ Function to update progress (Now REPLACES instead of ADDING)
 const updateProgress = async (req, res) => {
   try {
     const { solved, belt } = req.body;
@@ -29,7 +28,7 @@ const updateProgress = async (req, res) => {
     let progress = await Progress.findOne({ userId: req.user.id, date: todayDate });
 
     if (progress) {
-      // ✅ Instead of adding, we REPLACE the `solved` value
+ 
       progress.solved = solved;
       progress.belt = belt;
       progress.percentage = `${((progress.solved / progress.total) * 100).toFixed(2)}%`;
@@ -40,13 +39,13 @@ const updateProgress = async (req, res) => {
     } else {
       console.log("⚠️ No progress found. Creating new entry...");
 
-      // ✅ Create a new progress entry if none exists for today
+      
       progress = new Progress({
         userId: req.user.id,
         name: user.name,
         date: todayDate,
         solved,
-        total: 5,  // ✅ Keep total fixed at 5
+        total: 5,  
         belt,
         percentage: `${((solved / 5) * 100).toFixed(2)}%`,
       });
@@ -61,7 +60,6 @@ const updateProgress = async (req, res) => {
   }
 };
 
-// ✅ Function to get all progress data
 const getAllProgress = async (req, res) => {
   try {
     console.log("📊 Fetching all students' progress...");
@@ -79,7 +77,6 @@ const getAllProgress = async (req, res) => {
   }
 };
 
-// ✅ Function to get logged-in user's progress
 const getMyProgress = async (req, res) => {
   try {
     console.log("👤 Fetching progress for user:", req.user.id);
@@ -97,5 +94,5 @@ const getMyProgress = async (req, res) => {
   }
 };
 
-// ✅ Ensure all functions are correctly exported
+
 module.exports = { updateProgress, getAllProgress, getMyProgress };

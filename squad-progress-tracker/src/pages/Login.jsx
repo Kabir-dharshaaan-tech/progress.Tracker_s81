@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { login } from "../services/api"; // ✅ Use Axios API call
+import { login } from "../services/api"; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Allow only emails ending with ".s81@kalvium.community"
+  
     const emailRegex = /^[a-zA-Z0-9._%+-]+\.s81@kalvium\.community$/;
 
     if (!emailRegex.test(email)) {
@@ -23,15 +23,15 @@ const Login = () => {
     }
 
     try {
-      // ✅ Send email & password to backend using Axios
+    
       const { data } = await login({ email, password });
 
-      // ✅ Store authentication token & user info
+      
       localStorage.setItem("token", data.token);
       localStorage.setItem("studentEmail", email);
       localStorage.setItem("userId", data.userId);
 
-      navigate("/progress"); // ✅ Redirect to Progress Update page
+      navigate("/progress"); 
     } catch (error) {
       alert("Login failed: " + (error.response?.data?.message || "Server error"));
       console.error("Login Error:", error);

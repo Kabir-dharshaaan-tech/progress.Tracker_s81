@@ -4,28 +4,28 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { updateProgress } from "../services/api"; // Import the updateProgress function
+import { updateProgress } from "../services/api"; 
 
 const ProgressUpdate = () => {
   const [solvedProblems, setSolvedProblems] = useState("");
-  const [beltLevel, setBeltLevel] = useState("Green"); // Default belt level is set to "Green"
-  const [isAllowedTime, setIsAllowedTime] = useState(false); // Check if updating is allowed
+  const [beltLevel, setBeltLevel] = useState("Green"); 
+  const [isAllowedTime, setIsAllowedTime] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You must be logged in to access this page.");
-      navigate("/login"); // Redirect to login page if not logged in
+      navigate("/login"); 
     }
 
-    // ✅ Function to check if the current time is within 4 PM - Next Day 1 PM
+    
     const checkTimeRestriction = () => {
       const now = new Date();
       const currentHour = now.getHours();
-      console.log("Current Hour:", currentHour); // Debugging Log
+      console.log("Current Hour:", currentHour); 
 
-      // ✅ Allowed Time: Between 4 PM (16:00) and Next Day 1 PM (13:00)
+    
       if (currentHour >= 16 || currentHour < 13) {
         setIsAllowedTime(true);
       } else {
@@ -33,16 +33,16 @@ const ProgressUpdate = () => {
       }
     };
 
-    checkTimeRestriction(); // Run initially
-    const interval = setInterval(checkTimeRestriction, 60000); // Check every 1 minute
+    checkTimeRestriction(); 
+    const interval = setInterval(checkTimeRestriction, 60000); 
 
-    return () => clearInterval(interval); // Cleanup interval on unmount
+    return () => clearInterval(interval); 
   }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check authentication again before updating progress
+  
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You must be logged in to update progress.");
@@ -55,17 +55,17 @@ const ProgressUpdate = () => {
       return;
     }
 
-    // Prepare progress data
+
     const progressData = {
       solved: solvedProblems,
-      belt: beltLevel, // Include the selected belt level in the progress data
+      belt: beltLevel, 
     };
 
     try {
-      // Call the updateProgress function and pass the progress data
+   
       await updateProgress(progressData);
       alert("Progress updated successfully!");
-      navigate("/student-dashboard"); // Navigate to the student's dashboard after successful submission
+      navigate("/student-dashboard"); 
     } catch (error) {
       alert("Failed to update progress.");
     }
@@ -80,7 +80,7 @@ const ProgressUpdate = () => {
       <div className="bg-white shadow-lg rounded-lg p-8 w-96">
         <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">Update Your Progress</h2>
 
-        {/* Display a warning if outside the allowed time */}
+      
         {!isAllowedTime && (
           <p className="text-red-500 text-center mb-4">
             Progress can only be updated between 4 PM and 1 PM.
@@ -97,15 +97,15 @@ const ProgressUpdate = () => {
             value={solvedProblems}
             onChange={(e) => setSolvedProblems(e.target.value)}
             required
-            disabled={!isAllowedTime} // Disable input outside allowed time
+            disabled={!isAllowedTime} 
           />
 
-          {/* Dropdown to select the current belt level */}
+    
           <select
             className="w-full px-4 py-2 border rounded-md focus:border-blue-500"
             value={beltLevel}
             onChange={(e) => setBeltLevel(e.target.value)}
-            disabled={!isAllowedTime} // Disable dropdown outside allowed time
+            disabled={!isAllowedTime} 
           >
             <option value="Green">Green</option>
             <option value="Purple">Purple</option>
@@ -119,7 +119,7 @@ const ProgressUpdate = () => {
             className={`w-full py-2 rounded-md transition ${
               isAllowedTime ? "bg-blue-600 text-white hover:bg-green-400" : "bg-gray-400 text-gray-700 cursor-not-allowed"
             }`}
-            disabled={!isAllowedTime} // Disable button outside allowed time
+            disabled={!isAllowedTime}
           >
             Submit
           </motion.button>

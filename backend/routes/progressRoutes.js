@@ -3,12 +3,12 @@
 
 
 const express = require("express");
-const { updateProgress, getAllProgress, getMyProgress } = require("../controllers/progressController"); // ✅ Ensure correct import
+const { updateProgress, getAllProgress, getMyProgress } = require("../controllers/progressController"); 
 const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// ✅ Route for updating progress (Protected: Only logged-in users)
+
 router.post("/update", authMiddleware, async (req, res, next) => {
   try {
     console.log("🔄 Incoming Progress Update Request from:", req.user.id);
@@ -19,7 +19,7 @@ router.post("/update", authMiddleware, async (req, res, next) => {
   }
 });
 
-// ✅ Route to get all students' progress (Public)
+
 router.get("/all", async (req, res, next) => {
   try {
     console.log("📊 Fetching All Progress Data...");
@@ -30,7 +30,7 @@ router.get("/all", async (req, res, next) => {
   }
 });
 
-// ✅ Route to get logged-in user's progress (Protected)
+
 router.get("/myprogress", authMiddleware, async (req, res, next) => {
   try {
     console.log("👤 Fetching Progress Data for:", req.user.id);

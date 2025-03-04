@@ -36,7 +36,7 @@ const StudentTodaysWork = () => {
           Student Today's Work
         </h2>
         
-        {/* Belt Selection Dropdown */}
+       
         <div className="mb-6 flex justify-center">
           <select
             className="p-3 text-lg border rounded-lg shadow-md focus:ring-2 focus:ring-blue-500"
@@ -49,7 +49,7 @@ const StudentTodaysWork = () => {
           </select>
         </div>
         
-        {/* Display Questions Based on Selected Belt */}
+    
         <div className="space-y-6">
           <h3 className={`text-2xl font-semibold text-center ${selectedBelt === "purple" ? "text-purple-600" : selectedBelt === "blue" ? "text-blue-600" : "text-yellow-700"}`}>
             {selectedBelt.charAt(0).toUpperCase() + selectedBelt.slice(1)} Belt

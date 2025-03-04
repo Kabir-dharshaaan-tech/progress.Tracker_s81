@@ -22,14 +22,14 @@ const progressSchema = new mongoose.Schema({
   },
   total: {
     type: Number,
-    default: 5, // Default total problems to 5
+    default: 5, 
   },
   percentage: {
     type: String,
     required: true,
   },
   belt: {
-    type: String, // Belt level (Green, Blue, etc.)
+    type: String,
     required: true,
   },
 });

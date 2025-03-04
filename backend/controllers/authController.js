@@ -1,16 +1,15 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-require("dotenv").config(); // ✅ Ensure .env variables are loaded
+require("dotenv").config(); 
 
-// ✅ Signup Route
+
 exports.signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
     console.log("🔍 Checking if user already exists:", email);
 
-    // ✅ Check if the user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       console.log("❌ User already exists:", email);
@@ -19,10 +18,8 @@ exports.signup = async (req, res) => {
 
     console.log("✅ Creating new user:", email);
 
-    // ✅ Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Store hashed password in MongoDB
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
@@ -34,14 +31,14 @@ exports.signup = async (req, res) => {
   }
 };
 
-// ✅ Login Route
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     console.log("🔍 Checking login for:", email);
 
-    // ✅ Check if the user exists
+ 
     const user = await User.findOne({ email });
     if (!user) {
       console.log("❌ User not found:", email);
@@ -50,7 +47,6 @@ exports.login = async (req, res) => {
 
     console.log("✅ User found:", user.email);
 
-    // ✅ Compare hashed password with entered password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.log("❌ Incorrect password for:", email);
@@ -59,7 +55,7 @@ exports.login = async (req, res) => {
 
     console.log("✅ Password matches for:", email);
 
-    // ✅ Generate JWT Token for authentication
+    
     if (!process.env.JWT_SECRET) {
       console.error("❌ ERROR: JWT_SECRET is not set in .env file!");
       return res.status(500).json({ message: "Server error: Missing JWT_SECRET" });

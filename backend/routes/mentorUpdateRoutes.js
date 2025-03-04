@@ -3,7 +3,7 @@ const { updateMentorQuestions, getLatestMentorQuestions } = require("../controll
 
 const router = express.Router();
 
-router.post("/update", updateMentorQuestions); // ✅ Any student can update
-router.get("/latest", getLatestMentorQuestions); // ✅ Any student can access
+router.post("/update", updateMentorQuestions); 
+router.get("/latest", getLatestMentorQuestions); 
 
 module.exports = router;
