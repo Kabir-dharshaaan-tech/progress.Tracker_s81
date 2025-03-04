@@ -56,7 +56,7 @@ const App = () => {
           </button>
         </Link>
          
-          <Link to="/statitics">
+          <Link to="/statistics">
           <button 
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all"
           >
