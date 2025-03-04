@@ -25,7 +25,7 @@ const StudentStatistics = () => {
   useEffect(() => {
     const fetchProgressData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/progress/all");
+        const response = await axios.get("https://progress-tracker-backend-j7k4.onrender.com/api/progress/all");
         if (!response.data || !Array.isArray(response.data)) throw new Error("Invalid progress data");
 
         console.log("📊 Fetched Student Progress Data:", response.data);

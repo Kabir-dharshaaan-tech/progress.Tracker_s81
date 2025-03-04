@@ -17,7 +17,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/progress/all");
+        const response = await axios.get("https://progress-tracker-backend-j7k4.onrender.com/api/progress/all");
         console.log("Fetched Progress Data:", response.data);
         if (response.data && Array.isArray(response.data)) {
           setProgressData(response.data);

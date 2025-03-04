@@ -17,7 +17,7 @@ const StudentTodaysWork = () => {
   useEffect(() => {
     const fetchLatestQuestions = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/mentor/latest");
+        const response = await fetch("https://progress-tracker-backend-j7k4.onrender.com/api/mentor/latest");
         if (!response.ok) throw new Error("Failed to fetch student work");
 
         const data = await response.json();

@@ -6,7 +6,7 @@ import axios from "axios";
 
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:8080/api",
+  baseURL: process.env.REACT_APP_API_URL || "https://progress-tracker-backend-j7k4.onrender.com/api",
 });
 
 

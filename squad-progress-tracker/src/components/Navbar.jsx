@@ -11,10 +11,10 @@ import { motion } from "framer-motion";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token"); // Check if the user is logged in
+  const token = localStorage.getItem("token"); 
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Ensure token is removed on logout
+    localStorage.removeItem("token"); 
     navigate("/login");
   };
 
